@@ -2,7 +2,6 @@ pipeline {
     agent any
     tools {
         go 'go-1.14.2'
-        docker 'docker'
     }
     environment {
         GO111MODULE = 'on'
@@ -10,6 +9,10 @@ pipeline {
         registryCredential = 'dockerhub'
     }
     stages {
+        stage('Initialize') {
+            def dockerHome = tool 'docker'
+            env.PATH = "${dockerHome}/bin:${env.PATH}"
+        }
         stage('Pre Compile Checks') {
             steps {
                 sh 'go version'

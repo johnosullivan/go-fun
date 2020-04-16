@@ -10,6 +10,7 @@ pipeline {
         stage('Pre Compile Checks') {
             steps {
                 sh 'go version'
+                sh 'ls'
             }
         }
         stage('Compile') {

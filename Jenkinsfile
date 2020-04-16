@@ -11,6 +11,8 @@ pipeline {
             steps {
                 sh 'go version'
                 sh 'ls'
+                sh 'go mod init'
+                sh 'go get'
             }
         }
         stage('Compile') {

@@ -9,10 +9,6 @@ pipeline {
         registryCredential = 'dockerhub'
     }
     stages {
-        stage('Initialize') {
-            def dockerHome = tool 'docker'
-            env.PATH = "${dockerHome}/bin:${env.PATH}"
-        }
         stage('Pre Compile Checks') {
             steps {
                 sh 'go version'
@@ -24,7 +20,9 @@ pipeline {
                 sh 'go build'
             }
         }
-        stage('Building image') {
+        stage('Building Image') {
+          def dockerHome = tool 'docker'
+          env.PATH = "${dockerHome}/bin:${env.PATH}"
           steps {
             script {
               docker.build registry + ":$BUILD_NUMBER"

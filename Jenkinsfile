@@ -1,23 +1,22 @@
 pipeline {
-    agent { docker { image 'golang' } }
-
+    agent any
+    tools {
+        go 'go-1.14.2'
+    }
+    environment {
+        GO111MODULE = 'on'
+    }
     stages {
-        stage('Build') {
+        stage('Pre Compile Checks') {
             steps {
-                // Create our project directory.
-                sh 'cd ${GOPATH}/src'
-                sh 'mkdir -p ${GOPATH}/src/YOUR_PROJECT_DIRECTORY'
-
-                // Copy all files in our Jenkins workspace to our project directory.
-                sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/YOUR_PROJECT_DIRECTORY'
-
-                // Copy all files in our "vendor" folder to our "src" folder.
-                sh 'cp -r ${WORKSPACE}/vendor/* ${GOPATH}/src'
-
-                // Remove build cache.
-                sh 'go clean -cache'
-
-                // Build the app.
+                sh 'go version'
+                sh 'ls'
+                sh 'go mod init'
+                sh 'go get'
+            }
+        }
+        stage('Compile') {
+            steps {
                 sh 'go build'
             }
         }

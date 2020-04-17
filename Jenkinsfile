@@ -1,34 +1,36 @@
-pipeline {
-    agent any
-    tools {
-        go 'go-1.14.2'
+node {
+    def app
+
+    stage('Clone repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+
+        checkout scm
     }
-    environment {
-        GO111MODULE = 'on'
-        registry = "docker_hub_account/repository_name"
-        registryCredential = 'dockerhub'
+
+    stage('Build image') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
+
+        app = docker.build("getintodevops/hellonode")
     }
-    stages {
-        stage('Pre Compile Checks') {
-            steps {
-                sh 'go version'
-                sh 'go get'
-            }
+
+    stage('Test image') {
+        /* Ideally, we would run a test framework against our image.
+         * For this example, we're using a Volkswagen-type approach ;-) */
+
+        app.inside {
+            sh 'echo "Tests passed"'
         }
-        stage('Compile') {
-            steps {
-                sh 'go build'
-            }
-        }
-        stage('Tests') {
-            steps {
-                echo 'Testing was good!'
-            }
-        }
-        stage('Building Docker Image') {
-            steps {
-                sh 'docker build -t gofun .'
-            }
+    }
+
+    stage('Push image') {
+        /* Finally, we'll push the image with two tags:
+         * First, the incremental build number from Jenkins
+         * Second, the 'latest' tag.
+         * Pushing multiple tags is cheap, as all the layers are reused. */
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
     }
 }

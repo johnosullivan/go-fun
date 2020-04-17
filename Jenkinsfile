@@ -5,18 +5,14 @@ node {
         checkout scm
     }
 
-    /*stage('Pre Compile Checks') {
-        steps {
-            sh 'go version'
-            sh 'go get'
-        }
+    stage('Pre Compile Checks') {
+        sh 'go version'
+        sh 'go get'
     }
 
     stage('Compile') {
-        steps {
-            sh 'go build'
-        }
-    }*/
+        sh 'go build'
+    }
 
     stage('Build image') {
         app = docker.build "gofun" + ":$BUILD_NUMBER"

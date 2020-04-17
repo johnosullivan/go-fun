@@ -19,7 +19,7 @@ node {
     }*/
 
     stage('Build image') {
-        app = docker.build registry + ":$BUILD_NUMBER"
+        app = docker.build "gofun" + ":$BUILD_NUMBER"
     }
 
     stage('Test Image') {

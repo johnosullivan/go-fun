@@ -1,15 +1,15 @@
+tools {
+    go 'go-1.14.2'
+}
+
+environment {
+    GO111MODULE = 'on'
+    registry = "docker_hub_account/repository_name"
+    registryCredential = 'dockerhub'
+}
+
 node {
     def app
-
-    tools {
-        go 'go-1.14.2'
-    }
-
-    environment {
-        GO111MODULE = 'on'
-        registry = "docker_hub_account/repository_name"
-        registryCredential = 'dockerhub'
-    }
 
     stage('Clone repository') {
         checkout scm

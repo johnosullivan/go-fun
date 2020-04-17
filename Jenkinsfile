@@ -20,5 +20,15 @@ pipeline {
                 sh 'go build'
             }
         }
+        stage('Tests') {
+            steps {
+                echo 'Testing was good!'
+            }
+        }
+        stage('Building Docker Image') {
+            steps {
+                sh 'docker build -t gofun .'
+            }
+        }
     }
 }

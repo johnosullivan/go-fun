@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-      docker {
-        image 'golang'
-      }
-    }
+    agent any
     tools {
         go 'go-1.14.2'
     }
@@ -23,13 +19,6 @@ pipeline {
             steps {
                 sh 'go build'
             }
-        }
-        stage('Building Image') {
-          steps {
-            script {
-              docker.build registry + ":$BUILD_NUMBER"
-            }
-          }
         }
     }
 }

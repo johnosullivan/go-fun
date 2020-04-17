@@ -5,7 +5,7 @@ node {
         checkout scm
     }
 
-    stage('Pre Compile Checks') {
+    /*stage('Pre Compile Checks') {
         steps {
             sh 'go version'
             sh 'go get'
@@ -16,7 +16,7 @@ node {
         steps {
             sh 'go build'
         }
-    }
+    }*/
 
     stage('Build image') {
         app = docker.build registry + ":$BUILD_NUMBER"

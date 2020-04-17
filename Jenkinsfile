@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+      docker {
+        image 'golang'
+      }
+    }
     tools {
         go 'go-1.14.2'
     }
@@ -21,8 +25,6 @@ pipeline {
             }
         }
         stage('Building Image') {
-          def dockerHome = tool 'docker'
-          env.PATH = "${dockerHome}/bin:${env.PATH}"
           steps {
             script {
               docker.build registry + ":$BUILD_NUMBER"

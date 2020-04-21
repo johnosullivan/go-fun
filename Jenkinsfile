@@ -1,33 +1,30 @@
-node {
-    def app
-
-    stage('Clone repository') {
-        checkout scm
+pipeline {
+    tools {
+        go 'go'
     }
-
-    stage('Pre Compile Checks') {
-        sh 'go version'
-        sh 'go get'
+    environment {
+        GO111MODULE = 'on'
+        registry = "docker_hub_account/repository_name"
+        registryCredential = 'dockerhub'
     }
-
-    stage('Compile') {
-        sh 'go build'
-    }
-
-    stage('Build image') {
-        app = docker.build "gofun" + ":$BUILD_NUMBER"
-    }
-
-    stage('Test Image') {
-        app.inside {
-            sh 'echo "Tests passed"'
+    stages {
+        stage('Pre Compile Checks') {
+            steps {
+                sh 'go version'
+                sh 'go get'
+            }
+        }
+        stage('Compile') {
+            steps {
+                sh 'go build'
+            }
+        }
+        stage('Building Image') {
+          steps {
+            script {
+              docker.build registry + ":$BUILD_NUMBER"
+            }
+          }
         }
     }
-
-    /*stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }*/
 }

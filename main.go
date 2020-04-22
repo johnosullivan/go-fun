@@ -13,7 +13,7 @@ type User struct {
 
 func pingLink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	user := User{Name: "John (Jenkins) Jingleheimerschmidt", Email: "johndoe@gmail.com"}
+	user := User{Name: "John (Jenkins) Jingleheimerschmidt #22", Email: "johndoe@gmail.com"}
 	json.NewEncoder(w).Encode(user)
 }
 

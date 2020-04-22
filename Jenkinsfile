@@ -5,6 +5,8 @@ pipeline {
     }
     environment {
         GO111MODULE = 'on'
+        registry = "docker_hub_account/repository_name"
+        registryCredential = 'dockerhub'
     }
     stages {
         stage('Pre Compile Checks') {
@@ -19,15 +21,11 @@ pipeline {
             }
         }
         stage('Building Image') {
-              steps {
-                sh 'docker build -t go-fun .'
-              }
-        }
-        stage('Publish Image') {
-              steps {
-                sh 'docker tag go-fun:latest 396527728813.dkr.ecr.us-west-1.amazonaws.com/go-fun:latest'
-                sh 'docker push 396527728813.dkr.ecr.us-west-1.amazonaws.com/go-fun:latest'
-              }
+          steps {
+            script {
+              docker.build registry + ":$BUILD_NUMBER"
+            }
+          }
         }
     }
 }

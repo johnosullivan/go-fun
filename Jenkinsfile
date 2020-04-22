@@ -39,6 +39,7 @@ pipeline {
       stage('Clean Up') {
           steps {
               sh 'docker rmi $REPOSITORY_URI/$REPOSITORY_NAME'
+              sh 'docker rmi $REPOSITORY_NAME:latest'
           }
       }
   }

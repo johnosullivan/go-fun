@@ -30,8 +30,8 @@ pipeline {
       }
       stage('Publish Image') {
           steps {
-              //sh 'docker tag $REPOSITORY_NAME:latest $REPOSITORY_URI/$REPOSITORY_NAME:latest'
-              //sh 'docker push $REPOSITORY_URI/$REPOSITORY_NAME:latest'
+              sh 'docker tag $REPOSITORY_NAME:latest $REPOSITORY_URI/$REPOSITORY_NAME:latest'
+              sh 'docker push $REPOSITORY_URI/$REPOSITORY_NAME:latest'
           }
       }
       stage('Clean Up') {

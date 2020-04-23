@@ -9,7 +9,6 @@ pipeline {
   stages {
       stage('Pre Compile Checks') {
           steps {
-              sh 'echo $REPOSITORY_NAME'
               sh 'go version'
               sh 'go get'
           }

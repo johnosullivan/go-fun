@@ -1,26 +1,30 @@
 package main
 
 import (
+	"log"
 	"net/http"
-  "encoding/json"
+
 	"github.com/gorilla/mux"
+
+	"github.com/johnosullivan/go-fun/middlewares"
+	"github.com/johnosullivan/go-fun/controllers"
+	"github.com/johnosullivan/go-fun/utilities"
 )
 
-type User struct {
-     Name  string  `json:"name"`
-     Email string  `json:"email"`
-}
-
-func pingLink(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	user := User{Name: "John (Jenkins) Jingleheimerschmidt #22", Email: "johndoe@gmail.com"}
-	json.NewEncoder(w).Encode(user)
-}
-
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
 
-	router.HandleFunc("/ping", pingLink)
+	utilities.InitKeys()
 
-	http.ListenAndServe(":8080", router)
+	router := mux.NewRouter().StrictSlash(false)
+
+	router.HandleFunc("/ping", controllers.PingLink)
+
+	router.HandleFunc("/token", controllers.TokenHandler)
+
+	router.Handle("/", middlewares.AuthMiddleware(http.HandlerFunc(controllers.ExampleHandler)))
+
+	// Start a basic HTTP server
+  if err := http.ListenAndServe(":8080", router); err != nil {
+      log.Fatal(err)
+  }
 }

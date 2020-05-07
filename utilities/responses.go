@@ -4,9 +4,3 @@ type Response struct {
      Key  string  `json:"key"`
 		 Secret string `json:"secret"`
 }
-
-func CheckError(e error) {
-    if e != nil {
-        panic(e)
-    }
-}

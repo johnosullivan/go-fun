@@ -1,30 +1,28 @@
 package main
 
 import (
+	"os"
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
-
-	"github.com/johnosullivan/go-fun/middlewares"
-	"github.com/johnosullivan/go-fun/controllers"
+	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
+	//"github.com/johnosullivan/go-fun/db"
 )
 
 func main() {
+	utilities.InitEnvironment()
 
-	utilities.InitKeys()
+	//database.InitDB()
 
-	router := mux.NewRouter().StrictSlash(false)
+	router := routes.GetRoutes()
 
-	router.HandleFunc("/ping", controllers.PingLink)
+	var port = os.Getenv("PORT")
+	if len(port) == 0 {
+		panic("Please pick a port to listen/serve")
+	}
 
-	router.HandleFunc("/token", controllers.TokenHandler)
-
-	router.Handle("/", middlewares.AuthMiddleware(http.HandlerFunc(controllers.ExampleHandler)))
-
-	// Start a basic HTTP server
-  if err := http.ListenAndServe(":8080", router); err != nil {
+  if err := http.ListenAndServe(":" + port, router); err != nil {
       log.Fatal(err)
   }
 }

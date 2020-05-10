@@ -20,7 +20,7 @@ const (
 var db *sql.DB
 
 func InitDB() {
-    config := utilities.DBConfig()
+    config := utilities.GetDBConfig()
 
     var err error
 

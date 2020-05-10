@@ -13,9 +13,9 @@ func GetRoutes() *mux.Router {
 
 	router.HandleFunc("/ping", controllers.PingLink)
 
-	router.HandleFunc("/token", controllers.TokenHandler)
+	router.HandleFunc("/authenticate", controllers.TokenHandler)
 
-	router.Handle("/", middlewares.AuthMiddleware(http.HandlerFunc(controllers.ExampleHandler)))
+	router.Handle("/authping", middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler)))
 
   return router
 }

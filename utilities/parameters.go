@@ -2,12 +2,15 @@ package utilities
 
 import (
   "io/ioutil"
+  "strconv"
   "os"
 )
 
 const SECRET_VOLUME_PATH = "SECRET_VOLUME_PATH"
+const ENV_TYPE = "ENV_TYPE"
 
 var jwtSecret = ""
+var dbConfig map[string]string
 
 const (
     dbhost = "DBHOST"
@@ -21,13 +24,26 @@ func GetJWTSecret() string {
   return jwtSecret
 }
 
-func InitEnvironment() {
-  secret, err := ioutil.ReadFile(os.Getenv(SECRET_VOLUME_PATH) + "/secret")
-  CheckError(err)
-	jwtSecret = string(secret)
+func GetDBConfig() map[string]string {
+  return dbConfig
 }
 
-func DBConfig() map[string]string {
+func InitEnvironment() {
+  envtype, err := strconv.ParseBool(os.Getenv(ENV_TYPE))
+  CheckError(err)
+
+  if envtype {
+    secret, err := ioutil.ReadFile(os.Getenv(SECRET_VOLUME_PATH) + "/secret")
+    CheckError(err)
+  	jwtSecret = string(secret)
+  } else {
+  	jwtSecret = os.Getenv("JWT_SECRET")
+  }
+
+  dBConfig()
+}
+
+func dBConfig() {
     conf := make(map[string]string)
     host, ok := os.LookupEnv(dbhost)
     if !ok {
@@ -54,5 +70,5 @@ func DBConfig() map[string]string {
     conf[dbuser] = user
     conf[dbpass] = password
     conf[dbname] = name
-    return conf
+    dbConfig = conf
 }

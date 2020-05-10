@@ -12,7 +12,7 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, `{"status":"ok"}`)
 }
 
-func ExampleHandler(w http.ResponseWriter, r *http.Request) {
+func AuthPingHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Add("Content-Type", "application/json")
     io.WriteString(w, `{"status":"ok"}`)
 }

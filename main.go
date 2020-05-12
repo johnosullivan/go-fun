@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	//"log"
 	"net/http"
 
 	"context"
@@ -51,9 +50,7 @@ func main() {
       log.Fatal(err)
   }
   defer file.Close()
-	log.SetOutput(file)
-	log.SetFormatter(&log.JSONFormatter{})*/
-
+	log.SetOutput(file)*/
 	log.SetFormatter(&log.JSONFormatter{})
 
 	var wait time.Duration
@@ -86,9 +83,7 @@ func main() {
   }()
 
   c := make(chan os.Signal, 1)
-  // SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
   signal.Notify(c, os.Interrupt)
-  // Block until we receive our signal.
   <-c
 
   ctx, cancel := context.WithTimeout(context.Background(), wait)

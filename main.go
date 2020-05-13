@@ -45,12 +45,12 @@ func logRequest(handler http.Handler) http.Handler {
 }
 
 func main() {
-	/*file, err := os.OpenFile(os.Getenv("LOG_PATH"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(os.Getenv("LOG_PATH"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
   if err != nil {
       log.Fatal(err)
   }
   defer file.Close()
-	log.SetOutput(file)*/
+	log.SetOutput(file)
 	log.SetFormatter(&log.JSONFormatter{})
 
 	var wait time.Duration

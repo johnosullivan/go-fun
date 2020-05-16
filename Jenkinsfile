@@ -7,11 +7,13 @@ pipeline {
       GO111MODULE = 'on'
   }
   stages {
-      stage('Pre Compile Checks') {
-          steps {
-              sh 'go version'
-              sh 'go get'
-          }
+      /*
+        Initialize all the pipline parameters and thresholds.
+      */
+      stage("Initialize") {
+        steps {
+          initialize()
+        }
       }
       stage('Compile') {
           steps {
@@ -41,4 +43,8 @@ pipeline {
           }
       }
   }
+}
+
+def initialize() {
+
 }

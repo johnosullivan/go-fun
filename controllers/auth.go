@@ -10,23 +10,23 @@ import (
   "github.com/johnosullivan/go-fun/utilities"
 )
 
-func TokenHandler(w http.ResponseWriter, r *http.Request) {
+func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Add("Content-Type", "application/json")
     r.ParseForm()
 
     var APP_KEY = utilities.GetJWTSecret()
 
-    username := r.Form.Get("username")
-    password := r.Form.Get("password")
+    //username := r.Form.Get("username")
+    //password := r.Form.Get("password")
 
-    if username != "myusername" && password != "mypassword" {
+    /*if username != "myusername" && password != "mypassword" {
         w.WriteHeader(http.StatusUnauthorized)
         io.WriteString(w, `{"error":"invalid_credentials"}`)
         return
-    }
+    }*/
 
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-        "user": username,
+        "user": "admin",
         "exp":  time.Now().Add(time.Hour * time.Duration(1)).Unix(),
         "iat":  time.Now().Unix(),
     })

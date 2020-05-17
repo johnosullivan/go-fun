@@ -5,9 +5,11 @@ import (
     "testing"
     "net/http"
 	  "net/http/httptest"
+    "encoding/json"
 )
 
 var a App
+var jwtToken = ""
 
 func TestMain(m *testing.M) {
 	a = App{}
@@ -30,9 +32,33 @@ func checkResponseCode(t *testing.T, expected, actual int) {
 	}
 }
 
-
-func TestPingEndpoint(t *testing.T) {
+func TestPingLink(t *testing.T) {
     req, _ := http.NewRequest("GET", "/ping", nil)
     response := executeRequest(req, a)
     checkResponseCode(t, http.StatusOK, response.Code)
+}
+
+func TestAuthenticateHandler(t *testing.T) {
+    req, _ := http.NewRequest("POST", "/authenticate", nil)
+    response := executeRequest(req, a)
+    data := make(map[string]interface{})
+    err := json.Unmarshal(response.Body.Bytes(), &data)
+    if err == nil {
+      jwtToken = data["token"].(string)
+    }
+    checkResponseCode(t, http.StatusOK, response.Code)
+}
+
+func TestAuthPingHandlerSuccess(t *testing.T) {
+    var bearer = "Bearer " + jwtToken
+    req, _ := http.NewRequest("GET", "/authping", nil)
+    req.Header.Add("Authorization", bearer)
+    response := executeRequest(req, a)
+    checkResponseCode(t, http.StatusOK, response.Code)
+}
+
+func TestAuthPingHandlerFailure(t *testing.T) {
+    req, _ := http.NewRequest("GET", "/authping", nil)
+    response := executeRequest(req, a)
+    checkResponseCode(t, http.StatusUnauthorized, response.Code)
 }

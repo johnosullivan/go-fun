@@ -12,8 +12,12 @@ github.com/felixge/httpsnoop v1.0.1 h1:lvB5Jl89CsZtGIWuTcDM1E/vkVs49/Ml7JJe07l8S
 github.com/felixge/httpsnoop v1.0.1/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
 github.com/fluent/fluent-logger-golang v1.5.0 h1:wBpSzYjRlzgwwAOw/3ig3Jaxrb5xTJlvBu7TRcgJeCg=
 github.com/fluent/fluent-logger-golang v1.5.0/go.mod h1:2/HCT/jTy78yGyeNGQLGQsjF3zzzAuy6Xlk6FCMV5eU=
+github.com/gorilla/handlers v1.4.2 h1:0QniY0USkHQ1RGCLfKxeNHK9bkDHGRYGNDFBCS+YARg=
+github.com/gorilla/handlers v1.4.2/go.mod h1:Qkdc/uu4tH4g6mTK6auzZ766c4CA0Ng8+o/OAirnOIQ=
 github.com/gorilla/mux v1.7.4 h1:VuZ8uybHlWmqV03+zRzdwKL4tUnIp1MAQtp1mIFE1bc=
 github.com/gorilla/mux v1.7.4/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
+github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/kjk/dailyrotate v0.0.0-20191009232928-ae3b0facf5a6 h1:lBrKsu8Ff9Jg+hOqJoxWp6ssqeNoMuerZ44zMj2/WJQ=
 github.com/kjk/dailyrotate v0.0.0-20191009232928-ae3b0facf5a6/go.mod h1:0DI+To1/hAiHQBPW69iPd/W6OZ+to6I94rocxarZlds=
 github.com/kjk/siser v0.0.0-20191001074105-c140f572b4e4 h1:S9MXlBGjBQC5mQkSu9dKNGp4sUEhKSCKmFm7+rDyhFg=

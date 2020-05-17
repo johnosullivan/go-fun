@@ -1,21 +1,34 @@
 package routes
 
 import (
+  "os"
   "net/http"
-	"github.com/gorilla/mux"
 
 	"github.com/johnosullivan/go-fun/middlewares"
 	"github.com/johnosullivan/go-fun/controllers"
+  "github.com/johnosullivan/go-fun/websockets"
+  "github.com/gorilla/handlers"
 )
 
-func GetRoutes() *mux.Router {
-  router := mux.NewRouter().StrictSlash(false)
+func GetRoutes() *http.ServeMux {
+  router := http.NewServeMux()
 
-	router.HandleFunc("/ping", controllers.PingLink).Methods("GET")
+  hub := websockets.NewHub()
+  go hub.Run()
 
-	router.HandleFunc("/authenticate", controllers.AuthenticateHandler).Methods("POST")
+  router.Handle("/ping", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.PingLink)))
 
-	router.Handle("/authping", middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler)))
+  router.Handle("/authenticate", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AuthenticateHandler)))
+
+  router.Handle("/authping", handlers.LoggingHandler(os.Stdout,  middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler))))
+
+  router.HandleFunc("/ws_test", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "ws_test.html")
+  })
+  
+	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		websockets.ServeWebSocket(hub, w, r)
+	})
 
   return router
 }

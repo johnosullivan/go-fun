@@ -11,15 +11,13 @@ import (
 	"strconv"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/gorilla/mux"
 
 	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
-	//"github.com/johnosullivan/go-fun/db"
 )
 
 type App struct {
-	Router *mux.Router
+	Router *http.ServeMux
 }
 
 func (a *App) Initialize() {
@@ -40,7 +38,12 @@ func main() {
 	  defer file.Close()
 		log.SetOutput(file)
 	}
-	log.SetFormatter(&log.JSONFormatter{})
+
+	inJSON, err := strconv.ParseBool(os.Getenv("JSONOUTPUT"))
+  utilities.CheckError(err)
+	if inJSON {
+		log.SetFormatter(&log.JSONFormatter{})
+	}
 
 	var wait time.Duration
   flag.DurationVar(&wait, "gto", time.Second * 15, "")
@@ -62,7 +65,7 @@ func main() {
       WriteTimeout: time.Second * 15,
       ReadTimeout:  time.Second * 15,
       IdleTimeout:  time.Second * 60,
-      Handler: utilities.LogRequest(router),
+			Handler: router,
   }
 
   go func() {

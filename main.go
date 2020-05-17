@@ -11,12 +11,22 @@ import (
 	"strconv"
 
 	log "github.com/sirupsen/logrus"
+	"github.com/gorilla/mux"
 
 	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
 	//"github.com/johnosullivan/go-fun/db"
 )
 
+type App struct {
+	Router *mux.Router
+}
+
+func (a *App) Initialize() {
+	utilities.InitEnvironment()
+
+	a.Router = routes.GetRoutes()
+}
 
 func main() {
 	logfile, err := strconv.ParseBool(os.Getenv("LOGFILE"))

@@ -16,15 +16,6 @@ func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
 
     var APP_KEY = utilities.GetJWTSecret()
 
-    //username := r.Form.Get("username")
-    //password := r.Form.Get("password")
-
-    /*if username != "myusername" && password != "mypassword" {
-        w.WriteHeader(http.StatusUnauthorized)
-        io.WriteString(w, `{"error":"invalid_credentials"}`)
-        return
-    }*/
-
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
         "user": "admin",
         "exp":  time.Now().Add(time.Hour * time.Duration(1)).Unix(),

@@ -25,9 +25,9 @@ func GetRoutes() *http.ServeMux {
   router.HandleFunc("/ws_test", func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, "ws_test.html")
   })
-  
+
 	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		websockets.ServeWebSocket(hub, w, r)
+		    websockets.ServeWebSocket(hub, w, r)
 	})
 
   return router

@@ -1,10 +1,11 @@
-<!-- websockets.html -->
 <input id="input" type="text" />
 <button onclick="send()">Send</button>
 <pre id="output"></pre>
 <script>
     var input = document.getElementById("input");
+
     var output = document.getElementById("output");
+
     var socket = new WebSocket("ws://localhost:8000/ws");
 
     socket.onopen = function () {

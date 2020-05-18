@@ -16,22 +16,26 @@ import (
 	"github.com/johnosullivan/go-fun/utilities"
 )
 
+const LOGFILE_ENV_NAME = "LOGFILE"
+const JSONOUTPUT_ENV_NAME = "JSONOUTPUT"
+const LOG_PATH_ENV_NAME = "LOG_PATH"
+
 type App struct {
 	Router *http.ServeMux
 }
 
-func (a *App) Initialize() {
+func (app *App) Initialize() {
 	utilities.InitEnvironment()
 
-	a.Router = routes.GetRoutes()
+	app.Router = routes.GetRoutes()
 }
 
 func main() {
-	logfile, err := strconv.ParseBool(os.Getenv("LOGFILE"))
+	logfile, err := strconv.ParseBool(os.Getenv(LOGFILE_ENV_NAME))
   utilities.CheckError(err)
 
 	if logfile {
-		file, err := os.OpenFile(os.Getenv("LOG_PATH"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+		file, err := os.OpenFile(os.Getenv(LOG_PATH_ENV_NAME), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	  if err != nil {
 	      log.Fatal(err)
 	  }
@@ -39,7 +43,7 @@ func main() {
 		log.SetOutput(file)
 	}
 
-	inJSON, err := strconv.ParseBool(os.Getenv("JSONOUTPUT"))
+	inJSON, err := strconv.ParseBool(os.Getenv(JSONOUTPUT_ENV_NAME))
   utilities.CheckError(err)
 	if inJSON {
 		log.SetFormatter(&log.JSONFormatter{})

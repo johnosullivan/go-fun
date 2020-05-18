@@ -22,7 +22,7 @@ pipeline {
       }
       stage('Testing') {
           steps {
-              echo 'Testing Working ;)'
+              echo 'go test -v'
           }
       }
       stage('Building Image') {
@@ -30,7 +30,7 @@ pipeline {
               sh 'docker build -t $REPOSITORY_NAME .'
           }
       }
-      stage('Publish Image') {
+      /*stage('Publish Image') {
           steps {
               sh 'docker tag $REPOSITORY_NAME:latest $REPOSITORY_URI/$REPOSITORY_NAME:latest'
               sh 'docker push $REPOSITORY_URI/$REPOSITORY_NAME:latest'
@@ -41,7 +41,7 @@ pipeline {
               sh 'docker rmi $REPOSITORY_URI/$REPOSITORY_NAME'
               sh 'docker rmi $REPOSITORY_NAME:latest'
           }
-      }
+      }*/
   }
 }
 

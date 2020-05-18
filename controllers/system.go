@@ -5,6 +5,9 @@ import (
 	"net/http"
   "time"
   "encoding/json"
+
+  //"fmt"
+  //"github.com/johnosullivan/go-fun/websockets"
 )
 
 type SystemStatus struct {
@@ -19,6 +22,11 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
       http.Error(w, err.Error(), http.StatusInternalServerError)
       return
     }
+
+    /*hub := websockets.GetHub()
+    hub.Broadcast <- []byte("Hello World!")
+    fmt.Println(hub)*/
+
     w.Header().Set("Content-Type", "application/json")
     w.Write(js)
 }

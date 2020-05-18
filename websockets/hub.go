@@ -1,19 +1,34 @@
 package websockets
 
+import (
+  //"fmt"
+)
+
+var sharedHub = &Hub{}
+
 type Hub struct {
 	clients map[*Client]bool
-	broadcast chan []byte
+	Broadcast chan []byte
 	register chan *Client
 	unregister chan *Client
 }
 
 func NewHub() *Hub {
-	return &Hub{
-		broadcast:  make(chan []byte),
+	sharedHub = &Hub{
+		Broadcast:  make(chan []byte),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[*Client]bool),
 	}
+  return sharedHub
+}
+
+func GetHub() *Hub {
+  return sharedHub
+}
+
+func Add(message []byte) {
+  sharedHub.Broadcast <- message
 }
 
 func (h *Hub) Run() {
@@ -26,7 +41,7 @@ func (h *Hub) Run() {
   				delete(h.clients, client)
   				close(client.send)
   			}
-  		case message := <-h.broadcast:
+  		case message := <-h.Broadcast:
   			for client := range h.clients {
   				select {
     				case client.send <- message:

@@ -14,6 +14,7 @@ import (
 
 	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
+	//"github.com/johnosullivan/go-fun/db"
 )
 
 const LOGFILE_ENV_NAME = "LOGFILE"

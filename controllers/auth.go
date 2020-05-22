@@ -3,11 +3,14 @@ package controllers
 import (
   "io"
   "time"
+  "fmt"
 	"net/http"
 
   "github.com/dgrijalva/jwt-go"
 
   "github.com/johnosullivan/go-fun/utilities"
+
+  //"golang.org/x/crypto/bcrypt"
 )
 
 func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,4 +34,17 @@ func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
 
     io.WriteString(w, `{"token":"`+tokenString+`"}`)
     return
+}
+
+func UsersHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(r.Method)
+    switch r.Method {
+      case http.MethodPost:
+          w.Header().Add("Content-Type", "application/json")
+          io.WriteString(w, `{"status":"ok"}`)
+      case http.MethodPut:
+
+      default:
+          w.WriteHeader(http.StatusMethodNotAllowed)
+    }
 }

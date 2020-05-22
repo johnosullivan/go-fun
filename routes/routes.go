@@ -16,9 +16,12 @@ func GetRoutes() *http.ServeMux {
   hub := websockets.NewHub()
   go hub.Run()
 
+  //router.Handle("/api/", apiHandler{})
   router.Handle("/ping", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.PingLink)))
 
   router.Handle("/authenticate", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AuthenticateHandler)))
+
+  router.Handle("/users", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.UsersHandler)))
 
   router.Handle("/authping", handlers.LoggingHandler(os.Stdout,  middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler))))
 

@@ -33,7 +33,7 @@ func (app *App) Initialize() {
 
 func main() {
 	logfile, err := strconv.ParseBool(os.Getenv(LOGFILE_ENV_NAME))
-  utilities.CheckError(err)
+  	utilities.CheckError(err)
 
 	if logfile {
 		file, err := os.OpenFile(os.Getenv(LOG_PATH_ENV_NAME), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
@@ -45,14 +45,14 @@ func main() {
 	}
 
 	inJSON, err := strconv.ParseBool(os.Getenv(JSONOUTPUT_ENV_NAME))
-  utilities.CheckError(err)
+  	utilities.CheckError(err)
 	if inJSON {
 		log.SetFormatter(&log.JSONFormatter{})
 	}
 
 	var wait time.Duration
-  flag.DurationVar(&wait, "gto", time.Second * 15, "")
-  flag.Parse()
+	flag.DurationVar(&wait, "gto", time.Second * 15, "")
+	flag.Parse()
 
 	utilities.InitEnvironment()
 
@@ -71,20 +71,20 @@ func main() {
       ReadTimeout:  time.Second * 15,
       IdleTimeout:  time.Second * 60,
 			Handler: router,
-  }
+  	}
 
-  go func() {
-      if err := srv.ListenAndServe(); err != nil {
-          log.Println(err)
-      }
-  }()
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Println(err)
+		}
+	}()
 
-  c := make(chan os.Signal, 1)
-  signal.Notify(c, os.Interrupt)
-  <-c
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
 
-  ctx, cancel := context.WithTimeout(context.Background(), wait)
-  defer cancel()
-  srv.Shutdown(ctx)
-  os.Exit(0)
+	ctx, cancel := context.WithTimeout(context.Background(), wait)
+	defer cancel()
+	srv.Shutdown(ctx)
+	os.Exit(0)
 }

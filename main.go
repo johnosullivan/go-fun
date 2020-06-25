@@ -1,14 +1,14 @@
 package main
 
 import (
-	"os"
 	"net/http"
+	"os"
 
 	"context"
-	"time"
 	"flag"
 	"os/signal"
 	"strconv"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -33,25 +33,25 @@ func (app *App) Initialize() {
 
 func main() {
 	logfile, err := strconv.ParseBool(os.Getenv(LOGFILE_ENV_NAME))
-  	utilities.CheckError(err)
+	utilities.CheckError(err)
 
 	if logfile {
 		file, err := os.OpenFile(os.Getenv(LOG_PATH_ENV_NAME), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	  if err != nil {
-	      log.Fatal(err)
-	  }
-	  defer file.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
 		log.SetOutput(file)
 	}
 
 	inJSON, err := strconv.ParseBool(os.Getenv(JSONOUTPUT_ENV_NAME))
-  	utilities.CheckError(err)
+	utilities.CheckError(err)
 	if inJSON {
 		log.SetFormatter(&log.JSONFormatter{})
 	}
 
 	var wait time.Duration
-	flag.DurationVar(&wait, "gto", time.Second * 15, "")
+	flag.DurationVar(&wait, "gto", time.Second*15, "")
 	flag.Parse()
 
 	utilities.InitEnvironment()
@@ -66,12 +66,12 @@ func main() {
 	}
 
 	srv := &http.Server{
-      Addr:         ":" + port,
-      WriteTimeout: time.Second * 15,
-      ReadTimeout:  time.Second * 15,
-      IdleTimeout:  time.Second * 60,
-			Handler: router,
-  	}
+		Addr:         ":" + port,
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      router,
+	}
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {

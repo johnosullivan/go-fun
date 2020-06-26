@@ -14,7 +14,7 @@ import (
 
 	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
-	//"github.com/johnosullivan/go-fun/db"
+	"github.com/johnosullivan/go-fun/db"
 )
 
 const LOGFILE_ENV_NAME = "LOGFILE"
@@ -56,7 +56,7 @@ func main() {
 
 	utilities.InitEnvironment()
 
-	//database.InitDB()
+	database.InitDB()
 
 	router := routes.GetRoutes()
 

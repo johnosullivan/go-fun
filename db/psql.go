@@ -32,9 +32,19 @@ func CheckPasswordHash(password, hash string) bool {
     return err == nil
 }
 
+func PingDB() {
+  var err error
+  err = db.Ping()
+  if err != nil {
+      panic(err)
+  }
+  fmt.Println("Ping DB");
+}
 
 func InitDB() {
     config := utilities.GetDBConfig()
+
+    fmt.Println(config);
 
     var err error
 
@@ -48,10 +58,7 @@ func InitDB() {
         panic(err)
     }
 
-    err = db.Ping()
-    if err != nil {
-        panic(err)
-    }
+    PingDB()
 
     /*
     password := "el2eRO01sVVnOg8EmRMRTEAl"

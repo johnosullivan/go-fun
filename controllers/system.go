@@ -8,6 +8,8 @@ import (
 
   //"fmt"
   //"github.com/johnosullivan/go-fun/websockets"
+
+  "github.com/johnosullivan/go-fun/db"
 )
 
 type SystemStatus struct {
@@ -29,6 +31,13 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
 
     w.Header().Set("Content-Type", "application/json")
     w.Write(js)
+}
+
+func DBPingLink(w http.ResponseWriter, r *http.Request) {
+    database.PingDB()
+
+    w.Header().Add("Content-Type", "application/json")
+    io.WriteString(w, `{"status":"ok"}`)
 }
 
 func AuthPingHandler(w http.ResponseWriter, r *http.Request) {

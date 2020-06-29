@@ -16,8 +16,6 @@ func GetRoutes() *http.ServeMux {
   hub := websockets.NewHub()
   go hub.Run()
 
-  router.Handle("/pingdb", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.DBPingLink)))
-
   router.Handle("/ping", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.PingLink)))
 
   router.Handle("/authenticate", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AuthenticateHandler)))

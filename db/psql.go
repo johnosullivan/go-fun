@@ -68,7 +68,7 @@ func InitDB() {
     if awssm {
       config := getSecretsManagerValues()
       psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-          config[awsdbhost], fmt.Sprint(config[awsdbport]), config[awsdbuser], config[awsdbpass], os.Getenv(awsdbname))
+          config[awsdbhost], fmt.Sprint(config[awsdbport]), config[awsdbuser], config[awsdbpass], os.Getenv(dbname))
     } else {
       config := utilities.GetDBConfig()
       psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",

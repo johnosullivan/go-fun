@@ -5,9 +5,7 @@ import (
   "time"
   "fmt"
 	"net/http"
-
   "github.com/dgrijalva/jwt-go"
-
   "github.com/johnosullivan/go-fun/utilities"
 
   //"golang.org/x/crypto/bcrypt"

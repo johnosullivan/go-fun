@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/auth0/go-jwt-middleware v0.0.0-20190805220309-36081240882b
+	github.com/aws/aws-sdk-go v1.32.11
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/felixge/httpsnoop v1.0.1
 	github.com/fluent/fluent-logger-golang v1.5.0

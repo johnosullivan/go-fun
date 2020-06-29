@@ -15,6 +15,8 @@ import (
 	"github.com/johnosullivan/go-fun/routes"
 	"github.com/johnosullivan/go-fun/utilities"
 	"github.com/johnosullivan/go-fun/db"
+
+	"github.com/joho/godotenv"
 )
 
 const LOGFILE_ENV_NAME = "LOGFILE"
@@ -32,6 +34,9 @@ func (app *App) Initialize() {
 }
 
 func main() {
+	errenv := godotenv.Load()
+  if errenv != nil { }
+
 	logfile, err := strconv.ParseBool(os.Getenv(LOGFILE_ENV_NAME))
 	utilities.CheckError(err)
 

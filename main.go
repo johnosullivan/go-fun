@@ -56,7 +56,7 @@ func main() {
 	}
 
 	var wait time.Duration
-	flag.DurationVar(&wait, "gto", time.Second*15, "")
+	flag.DurationVar(&wait, "gto", time.Second * 15, "")
 	flag.Parse()
 
 	utilities.InitEnvironment()

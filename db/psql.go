@@ -77,6 +77,9 @@ func InitDB() {
 
     var err error
     db, err = sql.Open("postgres", psqlInfo)
+    db.SetMaxOpenConns(25)
+    db.SetMaxIdleConns(25)
+    db.SetConnMaxLifetime(5 * time.Minute)
     if err != nil {
         if !isMonitoring {
           panic(err)
@@ -95,6 +98,7 @@ func monitorConnection(sql *sql.DB) {
     for {
         err = sql.Ping()
         if err != nil {
+          fmt.Println(err)
           InitDB()
         }
         time.Sleep(time.Duration(dbtimeout) * time.Millisecond)

@@ -2,7 +2,13 @@ package websockets
 
 import (
   //"fmt"
+	"time"
 )
+
+/*
+E (550413) TRANS_TCP: tcp_poll_read select error 104, errno = Connection reset by peer, fd = 54
+E (550413) WEBSOCKET_CLIENT: Network error: esp_transport_poll_read() returned -1, errno=119
+*/
 
 var sharedHub = &Hub{}
 
@@ -29,6 +35,15 @@ func GetHub() *Hub {
 
 func Add(message []byte) {
   sharedHub.Broadcast <- message
+}
+
+func (h *Hub) Ping() {
+	for {
+		for client := range h.clients {
+			client.send <- []byte("ping")
+			time.Sleep(30 * time.Second)
+		}
+	}
 }
 
 func (h *Hub) Run() {

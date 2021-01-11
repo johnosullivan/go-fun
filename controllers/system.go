@@ -7,7 +7,7 @@ import (
   "encoding/json"
 
   //"fmt"
-  //"github.com/johnosullivan/go-fun/websockets"
+  "github.com/johnosullivan/go-fun/websockets"
   //"github.com/johnosullivan/go-fun/db"
 )
 
@@ -24,9 +24,10 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
       return
     }
 
-    /*hub := websockets.GetHub()
-    hub.Broadcast <- []byte("Hello World!")
-    fmt.Println(hub)*/
+    data := r.URL.Query().Get("data")
+
+    hub := websockets.GetHub()
+    hub.Broadcast <- []byte(data)
 
     w.Header().Set("Content-Type", "application/json")
     w.Write(js)
